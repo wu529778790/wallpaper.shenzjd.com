@@ -1,31 +1,18 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import { h } from "vue";
 
 export const routes = [
   {
     path: "/",
-    component: () => import("@/views/index.vue"),
-    meta: {
-      title: "壁纸",
-      newPage: true,
-    },
+    component: () => import("./Layout/index.vue"),
     redirect: "/index",
     children: [
       {
         path: "/index",
         component: () => import("@/views/index/index.vue"),
-        meta: {
-          title: "最新壁纸",
-          menu: false,
-        },
       },
       {
         path: "/bing",
         component: () => import("@/views/bing/index.vue"),
-        meta: {
-          title: "必应壁纸",
-          menu: false,
-        },
       },
     ],
   },

@@ -1,5 +1,5 @@
 <template>
-    <div class="wallpaper">
+    <div class="layout">
         <Menu />
         <div class="content">
             <router-view />
@@ -12,7 +12,7 @@ import Menu from './Menu/index.vue'
 </script>
 
 <style lang="scss" scoped>
-.wallpaper {
+.layout {
     height: 100%;
     display: flex;
     flex-direction: column;

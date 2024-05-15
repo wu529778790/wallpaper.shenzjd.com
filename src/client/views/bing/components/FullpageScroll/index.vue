@@ -39,7 +39,6 @@ const handleMouseWheel = (e) => {
 const moveDown = () => {
     inMove.value = true;
     activeSection.value--;
-
     if (activeSection < 0) {
         activeSection.value = offsets.value.length - 1;
     }
@@ -58,14 +57,12 @@ const moveUp = () => {
 const inMoveDelay = 400;
 const scrollToSection = (id, force = false) => {
     if (inMove.value && !force) return false;
-
     activeSection.value = id;
     inMove.value = true;
     let section = document.getElementsByTagName('section')[id];
     if (section) {
         document.getElementsByTagName('section')[id].scrollIntoView({ behavior: 'smooth' });
     }
-
     setTimeout(() => {
         inMove.value = false;
     }, inMoveDelay);

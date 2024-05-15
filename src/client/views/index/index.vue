@@ -13,7 +13,7 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import Wallpaper from "@/components/Wallpaper/index.vue";
+import Wallpaper from "./components/Wallpaper/index.vue";
 import { getNewestApi, getListByCategoryApi } from "./api";
 import { decode360Url } from "@/utils/index.js";
 
@@ -95,16 +95,19 @@ onMounted(() => {
 .index {
   margin-top: 50px;
   overflow-y: auto;
+
   .loadmore {
     padding: 16px;
     color: #999;
     font-size: 14px;
     display: flex;
     justify-content: center;
+
     .loading {
       position: relative;
       display: flex;
       gap: 10px;
+
       .spinner {
         width: 10px;
         height: 10px;
@@ -112,12 +115,15 @@ onMounted(() => {
         background-color: #000;
         animation: loading 1s infinite ease-in-out;
       }
+
       .spinner:nth-child(1) {
         animation-delay: 0.3s;
       }
+
       .spinner:nth-child(2) {
         animation-delay: 0.6s;
       }
+
       .spinner:nth-child(3) {
         animation-delay: 0.9s;
       }
@@ -128,10 +134,12 @@ onMounted(() => {
         opacity: 1;
         transform: translateX(-50%) scale(1);
       }
+
       50% {
         opacity: 0.5;
         transform: translateX(-50%) scale(1.5);
       }
+
       100% {
         opacity: 1;
         transform: translateX(-50%) scale(1);
