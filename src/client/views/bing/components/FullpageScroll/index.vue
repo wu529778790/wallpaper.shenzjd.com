@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, nextTick } from 'vue';
+import { onMounted, ref, nextTick, onUnmounted } from 'vue';
 
 const props = defineProps({
     list: Array
@@ -71,6 +71,10 @@ const scrollToSection = (id, force = false) => {
 onMounted(() => {
     calculateSectionOffsets()
     window.addEventListener('mousewheel', handleMouseWheel, { passive: false })
+})
+
+onUnmounted(() => {
+    window.removeEventListener('mousewheel', handleMouseWheel)
 })
 </script>
 
