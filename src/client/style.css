@@ -1,0 +1,23 @@
+#app {
+  height: 100%;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+::-webkit-scrollbar {
+  width: 9px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(192, 199, 210);
+  -webkit-border-radius: 7px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #9f9f9f;
+}
+::-webkit-scrollbar-arrow {
+  color: #f00;
+  background-color: #0f0;
+}
