@@ -1,10 +1,6 @@
 <template>
   <div class="category-names">
-    <div
-      class="item"
-      v-for="item in category"
-      :key="item.id"
-      @click="getListByCategory(item)">
+    <div class="item" v-for="item in category" :key="item.id" @click="getListByCategory(item)">
       {{ item.name }}
     </div>
   </div>
@@ -29,7 +25,7 @@ onBeforeMount(async () => {
 const router = useRouter();
 
 const getListByCategory = async (item) => {
-  router.push(`/wallpaper/index?cid=${item.id}`);
+  router.push(`/index?cid=${item.id}`);
 };
 </script>
 

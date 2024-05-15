@@ -1,24 +1,11 @@
 <template>
   <div class="img-box">
-    <img
-      class="img"
-      ref="imgRef"
-      :src="src"
-      :alt="data.tag"
-      @click="openFullScreen" />
+    <img class="img" ref="imgRef" :src="src" :alt="data.tag" @click="openFullScreen" />
     <Teleport v-if="fullscreenSrc" to="body">
-      <img
-        class="fullscreen"
-        :src="fullscreenSrc"
-        :alt="data.tag"
-        @click="closeFullScreen" />
+      <img class="fullscreen" :src="fullscreenSrc" :alt="data.tag" @click="closeFullScreen" />
     </Teleport>
     <div class="download">
-      <div
-        v-for="item in downloadArr"
-        :key="item"
-        class="download-item"
-        @click="handleDownload(item)">
+      <div v-for="item in downloadArr" :key="item" class="download-item" @click="handleDownload(item)">
         {{ item }}
       </div>
     </div>
@@ -110,6 +97,7 @@ const closeFullScreen = () => {
   width: 25%;
   position: relative;
   overflow: hidden;
+
   // counter-increment: item-counter;
   // &:after {
   //   position: absolute;
@@ -120,12 +108,15 @@ const closeFullScreen = () => {
   // }
   .img {
     width: 100%;
+    display: block;
   }
+
   &:hover {
     .download {
       left: 0;
     }
   }
+
   .download {
     height: 100%;
     position: absolute;
@@ -139,11 +130,12 @@ const closeFullScreen = () => {
     transition: all 0.25s ease;
     overflow-y: auto;
     color: #fff;
+
     .download-item {
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIVBMVEUAAADe3t7e3t7e3t7e3t7e3t7e3t7e3t7e3t7e3t7e3t4RmXU5AAAACnRSTlMAsKAQW6Z5c2lOCqK00wAAAEJJREFUCNdjwAaYVq1SIMAwNl21KtgYyMhaBQTLgAx2EKMAJNe1atUKsGKWVascICZ6LYEazTkB1SpBMAAyVoEBAwBXFRj52xzkuAAAAABJRU5ErkJggg==)
-        no-repeat;
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIVBMVEUAAADe3t7e3t7e3t7e3t7e3t7e3t7e3t7e3t7e3t7e3t4RmXU5AAAACnRSTlMAsKAQW6Z5c2lOCqK00wAAAEJJREFUCNdjwAaYVq1SIMAwNl21KtgYyMhaBQTLgAx2EKMAJNe1atUKsGKWVascICZ6LYEazTkB1SpBMAAyVoEBAwBXFRj52xzkuAAAAABJRU5ErkJggg==) no-repeat;
       background-position: 0 2px;
       padding-left: 20px;
+
       &:hover {
         text-decoration: underline;
         cursor: pointer;

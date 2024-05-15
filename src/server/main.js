@@ -1,6 +1,5 @@
 import express from "express";
 import ViteExpress from "vite-express";
-import puppeteer from "./puppeteer/index.js";
 import wallpaper from "./wallpaper/index.js";
 
 const app = express();
@@ -18,12 +17,10 @@ app.use(express.json());
 // 添加/api前缀
 app.use("/api", router);
 
-router.use("/puppeteer", puppeteer);
-
 router.use("/wallpaper", wallpaper);
 
-const server = app.listen(3000, '0.0.0.0', () => {
-  console.log("Click here to open the browser: http://localhost:3000");
-})
+const server = app.listen(3001, "0.0.0.0", () => {
+  console.log("Click here to open the browser: http://localhost:3001");
+});
 
 ViteExpress.bind(app, server);

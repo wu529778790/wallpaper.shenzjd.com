@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import { h } from "vue";
-import { IeOutlined, InstagramOutlined } from "@ant-design/icons-vue";
 
 export const routes = [
   {
@@ -8,7 +7,6 @@ export const routes = [
     component: () => import("@/views/index.vue"),
     meta: {
       title: "壁纸",
-      icon: () => h(InstagramOutlined),
       newPage: true,
     },
     redirect: "/index",
