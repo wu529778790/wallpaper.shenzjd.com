@@ -13,9 +13,9 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import Wallpaper from "../components/Wallpaper/index.vue";
+import Wallpaper from "@/components/Wallpaper/index.vue";
 import { getNewestApi, getListByCategoryApi } from "./api";
-import { decode360Url } from "../utils";
+import { decode360Url } from "@/utils/index.js";
 
 const route = useRoute();
 

@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { decode360Url } from "../../utils";
+import { decode360Url } from "@/utils/index.js";
 
 const props = defineProps({
   data: {

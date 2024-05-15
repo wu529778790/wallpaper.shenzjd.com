@@ -64,9 +64,7 @@ export default defineConfig({
         chunkFileNames: "js/[name]-[hash].js", // 引入文件名的名称
         entryFileNames: "js/[name]-[hash].js", // 包的入口文件名称
         assetFileNames: "[ext]/[name]-[hash].[ext]", // 资源文件像 字体，图片等
-        manualChunks: {
-          antd: ["@ant-design/icons-vue"],
-        },
+        manualChunks: {},
       },
       //  告诉打包工具 在external配置的 都是外部依赖项  不需要打包
       plugins: [externalGlobals({})],
