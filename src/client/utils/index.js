@@ -13,8 +13,10 @@ export const decode360Url = ({
   quality = 0,
 }) => {
   // 将 360 的图片链接从 /r/__85/ changed to /m/<width>_<height>_<quality>
-  return oldUrl.replace(
-    "r/__85",
-    "m/" + parseInt(width) + "_" + parseInt(height) + "_" + quality
-  );
+  return oldUrl
+    .replace(
+      "r/__85",
+      "m/" + parseInt(width) + "_" + parseInt(height) + "_" + quality
+    )
+    .replace("http:", "https:");
 };
