@@ -42,8 +42,10 @@ const getListByCategory = async () => {
   const res = await getListByCategoryApi({
     ...params.value,
   });
-  const newList = handlerData(res.data);
-  list.value = list.value.concat(newList);
+  if (res.data < params.value.count) {
+    loadmore.value = false;
+  }
+  list.value = list.value.concat(handlerData(res.data));
 };
 
 watch(
@@ -66,13 +68,16 @@ const getNewest = async () => {
     ...params.value,
     cid: undefined,
   });
+  if (res.data < params.value.count) {
+    loadmore.value = false;
+  }
   list.value = list.value.concat(handlerData(res.data));
 };
 
 const loadmore = ref(true);
 const getList = () => {
-  if (params.value.start > list.value.length && params.value.start > 0) {
-    loadmore.value = false;
+  if (loadmore.value === false) {
+    console.log("没有更多了");
     return;
   }
   if (params.value.cid) {
