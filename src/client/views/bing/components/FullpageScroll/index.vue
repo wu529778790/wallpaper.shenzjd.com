@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, nextTick, onUnmounted } from "vue";
+import { onMounted, ref, nextTick, onBeforeUnmount } from "vue";
 
 const props = defineProps({
   list: Array,
@@ -112,7 +112,7 @@ onMounted(() => {
   fullpage.value.addEventListener("touchmove", touchMove, { passive: false }); // mobile devices
 });
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   window.removeEventListener("mousewheel", handleMouseWheel);
   window.removeEventListener("DOMMouseScroll", handleMouseWheelDOM); // Mozilla Firefox
   fullpage.value.removeEventListener("touchstart", touchStart); // mobile devices
