@@ -1,12 +1,12 @@
 <template>
-  <div class="fullpage-scroll">
+  <div class="fullpage-scroll" ref="fullpage">
     <section
       class="section"
       v-for="(item, index) in list"
       :key="item.hsh"
       :style="{
         backgroundImage: `url(https://www.bing.com${item.url})`,
-      }"></section>
+      }" />
   </div>
 </template>
 
@@ -103,19 +103,20 @@ const touchMove = (e) => {
   return false;
 };
 
+const fullpage = ref(null);
 onMounted(() => {
   calculateSectionOffsets();
   window.addEventListener("mousewheel", handleMouseWheel, { passive: false });
   window.addEventListener("DOMMouseScroll", handleMouseWheelDOM); // Mozilla Firefox
-  window.addEventListener("touchstart", touchStart, { passive: false }); // mobile devices
-  window.addEventListener("touchmove", touchMove, { passive: false }); // mobile devices
+  fullpage.value.addEventListener("touchstart", touchStart, { passive: false }); // mobile devices
+  fullpage.value.addEventListener("touchmove", touchMove, { passive: false }); // mobile devices
 });
 
 onUnmounted(() => {
   window.removeEventListener("mousewheel", handleMouseWheel);
   window.removeEventListener("DOMMouseScroll", handleMouseWheelDOM); // Mozilla Firefox
-  window.removeEventListener("touchstart", touchStart); // mobile devices
-  window.removeEventListener("touchmove", touchMove); // mobile devices
+  fullpage.value.removeEventListener("touchstart", touchStart); // mobile devices
+  fullpage.value.removeEventListener("touchmove", touchMove); // mobile devices
 });
 </script>
 
