@@ -1,6 +1,6 @@
 <template>
   <div class="menu-box">
-    <div class="title">电脑壁纸</div>
+    <div class="title" @click="handleClick({ key: '/index' })">电脑壁纸</div>
     <div class="menu">
       <div
         class="item"
