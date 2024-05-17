@@ -73,6 +73,15 @@ const scrollToSection = (id, force = false) => {
   }, inMoveDelay);
 };
 
+const handleMouseWheelDOM = (e) => {
+  if (e.detail > 0 && !inMove.value) {
+    moveUp();
+  } else if (e.detail < 0 && !inMove.value) {
+    moveDown();
+  }
+  return false;
+};
+
 const touchStartY = ref(0);
 const touchStart = (e) => {
   e.preventDefault();
@@ -97,12 +106,14 @@ const touchMove = (e) => {
 onMounted(() => {
   calculateSectionOffsets();
   window.addEventListener("mousewheel", handleMouseWheel, { passive: false });
+  window.addEventListener("DOMMouseScroll", handleMouseWheelDOM); // Mozilla Firefox
   window.addEventListener("touchstart", touchStart, { passive: false }); // mobile devices
   window.addEventListener("touchmove", touchMove, { passive: false }); // mobile devices
 });
 
 onUnmounted(() => {
   window.removeEventListener("mousewheel", handleMouseWheel);
+  window.removeEventListener("DOMMouseScroll", handleMouseWheelDOM); // Mozilla Firefox
   window.removeEventListener("touchstart", touchStart); // mobile devices
   window.removeEventListener("touchmove", touchMove); // mobile devices
 });
