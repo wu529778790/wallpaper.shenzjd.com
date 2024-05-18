@@ -2,7 +2,7 @@
   <div class="img-box">
     <img class="img" ref="imgRef" :src="src" :alt="data.tag" @click="openFullScreen" />
     <Teleport v-if="fullscreenSrc" to="body">
-      <img class="fullscreen" :src="fullscreenSrc" :alt="data.tag" @click="closeFullScreen" />
+      <img class="fullscreen" ref="fullscreen" :src="fullscreenSrc" :alt="data.tag" @click="closeFullScreen" />
     </Teleport>
     <div class="download">
       <div v-for="item in downloadArr" :key="item" class="download-item" @click="handleDownload(item)">
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { decode360Url } from "@/utils/index.js";
 
 const props = defineProps({
@@ -26,7 +26,21 @@ const src = ref(
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
 );
 
+const handlerMousewheel = (e) => {
+  if (e.target !== fullscreen.value) return
+  if (!fullscreen.value.style.transform) {
+    fullscreen.value.style.transform = "scale(1.0)";
+  }
+  if (e.deltaY < 0) {
+    fullscreen.value.style.transform = `scale(${parseFloat(fullscreen.value.style.transform.split('scale(')[1].split(')')[0]) + 0.1})`;
+  } else {
+    if (parseFloat(fullscreen.value.style.transform.split('scale(')[1].split(')')[0]) <= 1) return
+    fullscreen.value.style.transform = `scale(${parseFloat(fullscreen.value.style.transform.split('scale(')[1].split(')')[0]) - 0.1})`;
+  }
+
+}
 const imgRef = ref(null);
+const fullscreen = ref(null);
 onMounted(() => {
   const imgObserver = new IntersectionObserver((entries) => {
     if (entries[0].intersectionRatio <= 0) return;
@@ -34,7 +48,13 @@ onMounted(() => {
     imgObserver.unobserve(document.querySelector(".img"));
   });
   imgObserver.observe(imgRef.value);
+
+  window.addEventListener("mousewheel", handlerMousewheel, { passive: false });
 });
+
+onBeforeUnmount(() => {
+  window.removeEventListener("mousewheel", handlerMousewheel);
+})
 
 const downloadArr = [
   "2560x1600",
