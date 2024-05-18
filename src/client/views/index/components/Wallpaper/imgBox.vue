@@ -68,7 +68,7 @@ const handleDownload = (item) => {
 };
 
 const fullscreenSrc = ref("");
-const openFullScreen = () => {
+const openFullScreen = async () => {
   fullscreenSrc.value = decode360Url({
     oldUrl: props.data.url,
     width: "1920",
@@ -90,8 +90,8 @@ const closeFullScreen = () => {
   width: 100%;
   height: 100vh;
   z-index: 999;
-  object-fit: cover;
-  background-color: #eee;
+  object-fit: contain;
+  backdrop-filter: blur(10px);
 }
 </style>
 <style lang="scss" scoped>

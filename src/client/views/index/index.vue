@@ -52,6 +52,7 @@ watch(
   () => route.query.cid,
   (newValue, oldValue) => {
     if (newValue === oldValue) return;
+    loadmore.value = true;
     params.value.cid = newValue;
     params.value.start = 0;
     list.value = [];
