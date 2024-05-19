@@ -89,10 +89,11 @@ const handleDownload = (item) => {
 
 const fullscreenSrc = ref("");
 const openFullScreen = async () => {
+  const { innerWidth, innerHeight } = window;
   fullscreenSrc.value = decode360Url({
     oldUrl: props.data.url,
-    width: "1920",
-    height: "1080",
+    width: innerWidth,
+    height: innerHeight,
     quality: 0,
   });
 };
