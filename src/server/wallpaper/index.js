@@ -70,8 +70,14 @@ router.get("/bing", async (req, res) => {
   await handleCache(req, res, url, cacheKey);
 });
 
+router.get("/english", async (req, res) => {
+  const url = `http://open.iciba.com/dsapi/`;
+  const cacheKey = `open_iciba_dsapi`;
+  await handleCache(req, res, url, cacheKey);
+});
+
 // 搜索数据
-router.get("/search", async (req, res) => {
+https: router.get("/search", async (req, res) => {
   const content = req.query.content || "";
   const start = req.query.start || 0;
   const count = req.query.count || 10;

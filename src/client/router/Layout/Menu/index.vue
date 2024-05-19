@@ -2,23 +2,18 @@
   <div class="menu-box">
     <div class="title" @click="handleClick({ key: '/index' })">电脑壁纸</div>
     <div class="menu">
-      <div
-        class="item"
-        :class="{ itemActive: currentKey === '/index' }"
-        @click="handleClick({ key: '/index' })">
+      <div class="item" :class="{ itemActive: currentKey === '/index' }" @click="handleClick({ key: '/index' })">
         最新壁纸
       </div>
-      <div
-        class="item category"
-        :class="{ itemActive: currentKey.includes('cid=') }">
+      <div class="item category" :class="{ itemActive: currentKey.includes('cid=') }">
         分类壁纸
         <Category class="category-box" />
       </div>
-      <div
-        class="item"
-        :class="{ itemActive: currentKey === '/bing' }"
-        @click="handleClick({ key: '/bing' })">
+      <div class="item" :class="{ itemActive: currentKey === '/bing' }" @click="handleClick({ key: '/bing' })">
         必应美图
+      </div>
+      <div class="item" :class="{ itemActive: currentKey === '/english' }" @click="handleClick({ key: '/english' })">
+        每日英语
       </div>
     </div>
   </div>
@@ -67,18 +62,16 @@ function handleClick({ key }) {
   }
 
   .title {
-    background-image: -webkit-gradient(
-      linear,
-      left top,
-      right bottom,
-      color-stop(0, #f22),
-      color-stop(0.15, #f2f),
-      color-stop(0.3, #22f),
-      color-stop(0.45, #2ff),
-      color-stop(0.6, #2f2),
-      color-stop(0.85, #ff2),
-      color-stop(1, #f22)
-    );
+    background-image: -webkit-gradient(linear,
+        left top,
+        right bottom,
+        color-stop(0, #f22),
+        color-stop(0.15, #f2f),
+        color-stop(0.3, #22f),
+        color-stop(0.45, #2ff),
+        color-stop(0.6, #2f2),
+        color-stop(0.85, #ff2),
+        color-stop(1, #f22));
     color: transparent;
     background-clip: text;
     font-size: 28px;

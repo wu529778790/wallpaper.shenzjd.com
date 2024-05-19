@@ -14,6 +14,10 @@ export const routes = [
         path: "/bing",
         component: () => import("@/views/bing/index.vue"),
       },
+      {
+        path: "/english",
+        component: () => import("@/views/english/index.vue"),
+      },
     ],
   },
 ];
