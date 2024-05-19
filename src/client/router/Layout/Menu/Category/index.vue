@@ -1,6 +1,7 @@
 <template>
   <div class="category-names">
-    <div class="item" v-for="item in category" :key="item.id" @click="getListByCategory(item)">
+    <div class="item" :class="{ active_item: $route.query.cid === item.id }" v-for="item in category" :key="item.id"
+      @click="getListByCategory(item)">
       {{ item.name }}
     </div>
   </div>
@@ -51,6 +52,10 @@ const getListByCategory = async (item) => {
       color: #1677ff;
       background-color: #eee;
     }
+  }
+
+  .active_item {
+    color: #1677ff;
   }
 }
 </style>
