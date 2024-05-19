@@ -79,6 +79,14 @@ function handleClick({ key }) {
     display: inline-block;
     padding: 0 10px;
     cursor: pointer;
+
+    &:hover {
+      transform: rotate(666turn);
+      transition-delay: 1s;
+      transition-property: all;
+      transition-duration: 59s;
+      transition-timing-function: cubic-bezier(.34, 0, .84, 1);
+    }
   }
 
   .menu {
