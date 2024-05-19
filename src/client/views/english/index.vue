@@ -27,7 +27,9 @@ onBeforeMount(async () => {
     .audio {
         position: absolute;
         bottom: 0;
-        width: 100%;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
     }
 }
 </style>
