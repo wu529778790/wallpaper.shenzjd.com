@@ -69,7 +69,11 @@ router.get("/bing", async (req, res) => {
   const cacheKey = `bingImageArchive_${idx}_${n}`;
   await handleCache(req, res, url, cacheKey);
 });
-
+/**
+ * @description 获取 iciba 词霸每日一句
+ * @router get /wallpaper/iciba
+ * @response
+ */
 router.get("/english", async (req, res) => {
   const url = `http://open.iciba.com/dsapi/`;
   const cacheKey = `open_iciba_dsapi`;
