@@ -1,6 +1,7 @@
 import express from "express";
 import ViteExpress from "vite-express";
 import wallpaper from "./wallpaper/index.js";
+import deploy from "./deploy/index.js";
 
 const app = express();
 const router = express.Router();
@@ -16,6 +17,9 @@ app.use(express.json());
 
 // 添加/api前缀
 app.use("/api", router);
+
+// 部署
+router.use("/deploy", deploy);
 
 router.use("/wallpaper", wallpaper);
 
