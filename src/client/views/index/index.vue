@@ -15,7 +15,6 @@ import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import Wallpaper from "./components/Wallpaper/index.vue";
 import { getNewestApi, getListByCategoryApi } from "./api";
-import { decode360Url } from "@/utils/index.js";
 
 const route = useRoute();
 
@@ -26,17 +25,6 @@ const params = ref({
   cid: route.query.cid,
 });
 
-const handlerData = (data) => {
-  return data.map((item, index) => {
-    return {
-      ...item,
-      decode360Url: decode360Url({
-        oldUrl: item.url,
-      }),
-    };
-  });
-};
-
 // 获取分类壁纸
 const getListByCategory = async () => {
   const res = await getListByCategoryApi({
@@ -45,7 +33,7 @@ const getListByCategory = async () => {
   if (res.data < params.value.count) {
     loadmore.value = false;
   }
-  list.value = list.value.concat(handlerData(res.data));
+  list.value = list.value.concat(res.data);
 };
 
 watch(
@@ -72,13 +60,12 @@ const getNewest = async () => {
   if (res.data < params.value.count) {
     loadmore.value = false;
   }
-  list.value = list.value.concat(handlerData(res.data));
+  list.value = list.value.concat(res.data);
 };
 
 const loadmore = ref(true);
 const getList = () => {
   if (loadmore.value === false) {
-    console.log("没有更多了");
     return;
   }
   if (params.value.cid) {
@@ -88,6 +75,7 @@ const getList = () => {
   }
   params.value.start += params.value.count;
 };
+
 onMounted(() => {
   const endObserver = new IntersectionObserver((entries) => {
     if (entries[0].intersectionRatio <= 0) return;
