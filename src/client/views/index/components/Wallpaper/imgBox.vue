@@ -144,7 +144,7 @@ const closeFullScreen = () => {
 <style lang="scss" scoped>
 .img-box {
   width: 25%;
-  height: 25vw * 9 / 16;
+  height: 14.025vw;
   position: relative;
   overflow: hidden;
   .img {
