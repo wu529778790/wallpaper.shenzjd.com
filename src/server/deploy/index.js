@@ -4,7 +4,7 @@ import { exec } from "child_process";
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  exec("bash ./deploy.sh", (error, stdout, stderr) => {
+  exec("bash ./src/server/deploy/deploy.sh", (error, stdout, stderr) => {
     if (error) {
       console.error(`执行脚本时发生错误：${error.message}`);
       return;
