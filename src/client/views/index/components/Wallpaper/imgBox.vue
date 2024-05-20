@@ -1,11 +1,25 @@
 <template>
   <div class="img-box">
-    <img class="img" ref="imgRef" :src="src" :alt="data.tag" @click="openFullScreen" />
+    <img
+      class="img"
+      ref="imgRef"
+      :src="src"
+      :alt="data.tag"
+      @click="openFullScreen" />
     <Teleport v-if="fullscreenSrc" to="body">
-      <img class="fullscreen" ref="fullscreen" :src="fullscreenSrc" :alt="data.tag" @click="closeFullScreen" />
+      <img
+        class="fullscreen"
+        ref="fullscreen"
+        :src="fullscreenSrc"
+        :alt="data.tag"
+        @click="closeFullScreen" />
     </Teleport>
     <div class="download">
-      <div v-for="item in downloadArr" :key="item" class="download-item" @click="handleDownload(item)">
+      <div
+        v-for="item in downloadArr"
+        :key="item"
+        class="download-item"
+        @click="handleDownload(item)">
         {{ item }}
       </div>
     </div>
@@ -27,18 +41,30 @@ const src = ref(
 );
 
 const handlerMousewheel = (e) => {
-  if (e.target !== fullscreen.value) return
+  if (e.target !== fullscreen.value) return;
   if (!fullscreen.value.style.transform) {
     fullscreen.value.style.transform = "scale(1.0)";
   }
   if (e.deltaY < 0) {
-    fullscreen.value.style.transform = `scale(${parseFloat(fullscreen.value.style.transform.split('scale(')[1].split(')')[0]) + 0.1})`;
+    fullscreen.value.style.transform = `scale(${
+      parseFloat(
+        fullscreen.value.style.transform.split("scale(")[1].split(")")[0]
+      ) + 0.1
+    })`;
   } else {
-    if (parseFloat(fullscreen.value.style.transform.split('scale(')[1].split(')')[0]) <= 1) return
-    fullscreen.value.style.transform = `scale(${parseFloat(fullscreen.value.style.transform.split('scale(')[1].split(')')[0]) - 0.1})`;
+    if (
+      parseFloat(
+        fullscreen.value.style.transform.split("scale(")[1].split(")")[0]
+      ) <= 1
+    )
+      return;
+    fullscreen.value.style.transform = `scale(${
+      parseFloat(
+        fullscreen.value.style.transform.split("scale(")[1].split(")")[0]
+      ) - 0.1
+    })`;
   }
-
-}
+};
 const imgRef = ref(null);
 const fullscreen = ref(null);
 onMounted(() => {
@@ -54,7 +80,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener("mousewheel", handlerMousewheel);
-})
+});
 
 const downloadArr = [
   "2560x1600",
@@ -155,7 +181,8 @@ const closeFullScreen = () => {
     color: #fff;
 
     .download-item {
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIVBMVEUAAADe3t7e3t7e3t7e3t7e3t7e3t7e3t7e3t7e3t7e3t4RmXU5AAAACnRSTlMAsKAQW6Z5c2lOCqK00wAAAEJJREFUCNdjwAaYVq1SIMAwNl21KtgYyMhaBQTLgAx2EKMAJNe1atUKsGKWVascICZ6LYEazTkB1SpBMAAyVoEBAwBXFRj52xzkuAAAAABJRU5ErkJggg==) no-repeat;
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIVBMVEUAAADe3t7e3t7e3t7e3t7e3t7e3t7e3t7e3t7e3t7e3t4RmXU5AAAACnRSTlMAsKAQW6Z5c2lOCqK00wAAAEJJREFUCNdjwAaYVq1SIMAwNl21KtgYyMhaBQTLgAx2EKMAJNe1atUKsGKWVascICZ6LYEazTkB1SpBMAAyVoEBAwBXFRj52xzkuAAAAABJRU5ErkJggg==)
+        no-repeat;
       background-position: 0 2px;
       padding-left: 20px;
 
