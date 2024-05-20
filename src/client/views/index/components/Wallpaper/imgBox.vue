@@ -144,19 +144,12 @@ const closeFullScreen = () => {
 <style lang="scss" scoped>
 .img-box {
   width: 25%;
+  height: 25vw * 9 / 16;
   position: relative;
   overflow: hidden;
-
-  // counter-increment: item-counter;
-  // &:after {
-  //   position: absolute;
-  //   color: white;
-  //   left: 0;
-  //   top: 0;
-  //   content: counter(item-counter);
-  // }
   .img {
     width: 100%;
+    height: 100%;
     display: block;
   }
 
