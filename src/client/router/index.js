@@ -18,6 +18,10 @@ export const routes = [
         path: "/english",
         component: () => import("@/views/english/index.vue"),
       },
+      {
+        path: "/vitualList",
+        component: () => import("@/views/vitualList/index.vue"),
+      },
     ],
   },
 ];
