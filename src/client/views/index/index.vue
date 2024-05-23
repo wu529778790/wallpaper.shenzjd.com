@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <Wallpaper :data="list" />
+    <Wallpaper :data="list" @scrollToBottom="getList" />
     <div class="loadmore">
       <div v-if="loadmore" class="loading">
         <div class="spinner" v-for="i in 3" :key="i"></div>
@@ -21,7 +21,7 @@ const route = useRoute();
 const list = ref([]);
 const params = ref({
   start: 0,
-  count: 40,
+  count: 100,
   cid: route.query.cid,
 });
 
@@ -77,18 +77,18 @@ const getList = () => {
 };
 
 onMounted(() => {
-  const endObserver = new IntersectionObserver((entries) => {
-    if (entries[0].intersectionRatio <= 0) return;
-    getList();
-  });
-  endObserver.observe(document.querySelector(".loadmore"));
+  // const endObserver = new IntersectionObserver((entries) => {
+  // if (entries[0].intersectionRatio <= 0) return;
+  getList();
+  // });
+  // endObserver.observe(document.querySelector(".loadmore"));
 });
 </script>
 
 <style lang="scss" scoped>
 .index {
   margin-top: 50px;
-  overflow-y: auto;
+  height: 100%;
 
   .loadmore {
     padding: 16px;
