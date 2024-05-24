@@ -1,17 +1,11 @@
 <template>
   <div class="index">
     <Wallpaper :data="list" @scrollToBottom="getList" />
-    <div class="loadmore">
-      <div v-if="loadmore" class="loading">
-        <div class="spinner" v-for="i in 3" :key="i"></div>
-      </div>
-      <div v-else>没有更多了</div>
-    </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { onBeforeMount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import Wallpaper from "./components/Wallpaper/index.vue";
 import { getNewestApi, getListByCategoryApi } from "./api";
@@ -30,8 +24,8 @@ const getListByCategory = async () => {
   const res = await getListByCategoryApi({
     ...params.value,
   });
-  if (res.data < params.value.count) {
-    loadmore.value = false;
+  if (res.data.length < params.value.count) {
+    haveData.value = false;
   }
   list.value = list.value.concat(res.data);
 };
@@ -40,7 +34,7 @@ watch(
   () => route.query.cid,
   (newValue, oldValue) => {
     if (newValue === oldValue) return;
-    loadmore.value = true;
+    haveData.value = true;
     params.value.cid = newValue;
     params.value.start = 0;
     list.value = [];
@@ -57,15 +51,16 @@ const getNewest = async () => {
     ...params.value,
     cid: undefined,
   });
-  if (res.data < params.value.count) {
-    loadmore.value = false;
+  if (res.data.length < params.value.count) {
+    haveData.value = false;
   }
   list.value = list.value.concat(res.data);
 };
 
-const loadmore = ref(true);
+const haveData = ref(true);
 const getList = () => {
-  if (loadmore.value === false) {
+  if (haveData.value === false) {
+    console.log("没有更多数据了");
     return;
   }
   if (params.value.cid) {
@@ -76,12 +71,8 @@ const getList = () => {
   params.value.start += params.value.count;
 };
 
-onMounted(() => {
-  // const endObserver = new IntersectionObserver((entries) => {
-  // if (entries[0].intersectionRatio <= 0) return;
+onBeforeMount(() => {
   getList();
-  // });
-  // endObserver.observe(document.querySelector(".loadmore"));
 });
 </script>
 
@@ -89,56 +80,5 @@ onMounted(() => {
 .index {
   margin-top: 50px;
   height: 100%;
-
-  .loadmore {
-    padding: 16px;
-    color: #999;
-    font-size: 14px;
-    display: flex;
-    justify-content: center;
-
-    .loading {
-      position: relative;
-      display: flex;
-      gap: 10px;
-
-      .spinner {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: #000;
-        animation: loading 1s infinite ease-in-out;
-      }
-
-      .spinner:nth-child(1) {
-        animation-delay: 0.3s;
-      }
-
-      .spinner:nth-child(2) {
-        animation-delay: 0.6s;
-      }
-
-      .spinner:nth-child(3) {
-        animation-delay: 0.9s;
-      }
-    }
-
-    @keyframes loading {
-      0% {
-        opacity: 1;
-        transform: translateX(-50%) scale(1);
-      }
-
-      50% {
-        opacity: 0.5;
-        transform: translateX(-50%) scale(1.5);
-      }
-
-      100% {
-        opacity: 1;
-        transform: translateX(-50%) scale(1);
-      }
-    }
-  }
 }
 </style>
