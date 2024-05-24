@@ -6,7 +6,12 @@
     @scrollToBottom="scrollToBottom">
     <template #item="{ data }">
       <div class="group-item">
-        <ImgBox v-for="item in data" :key="item.id" :data="item" />
+        <ImgBox
+          class="item"
+          :style="{ height: itemHeight + 'px' }"
+          v-for="item in data"
+          :key="item.id"
+          :data="item" />
       </div>
     </template>
   </VitualList>
@@ -65,5 +70,8 @@ const scrollToBottom = () => {
 <style lang="scss" scoped>
 .group-item {
   display: flex;
+  .item {
+    flex: 1;
+  }
 }
 </style>
