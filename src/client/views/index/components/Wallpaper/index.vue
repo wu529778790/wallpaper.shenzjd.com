@@ -4,15 +4,8 @@
     :data="groupList"
     :itemHeight="itemHeight"
     @scrollToBottom="scrollToBottom">
-    <template #item="{ data }">
-      <div class="group-item">
-        <ImgBox
-          class="item"
-          :style="{ height: itemHeight + 'px' }"
-          v-for="item in data"
-          :key="item.id"
-          :data="item" />
-      </div>
+    <template #item="{ data, index }">
+      <GroupItem :data="data" :rowIndex="index" :itemHeight="itemHeight" />
     </template>
   </VitualList>
 </template>
@@ -20,7 +13,7 @@
 <script setup>
 import { ref, onBeforeMount, computed } from "vue";
 import VitualList from "../VitualList/index.vue";
-import ImgBox from "./imgBox.vue";
+import GroupItem from "./GroupItem.vue";
 import { decode360Url } from "@/utils/index.js";
 
 const itemWidth = ref(0);
@@ -66,12 +59,3 @@ const scrollToBottom = () => {
   emit("scrollToBottom");
 };
 </script>
-
-<style lang="scss" scoped>
-.group-item {
-  display: flex;
-  .item {
-    flex: 1;
-  }
-}
-</style>
