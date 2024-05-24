@@ -29,12 +29,17 @@ const props = defineProps({
     default: 0,
     requied: true,
   },
+  // 缓冲行数
+  buffer: {
+    type: Number,
+    default: 3,
+  },
 });
 
 const totalHeight = computed(() => props.data.length * props.itemHeight);
 const start = ref(0);
 const count = ref(0);
-const end = computed(() => start.value + count.value) + 1;
+const end = computed(() => start.value + count.value) + props.buffer;
 const virtualList = computed(() => {
   return props.data.slice(start.value, end.value);
 });
