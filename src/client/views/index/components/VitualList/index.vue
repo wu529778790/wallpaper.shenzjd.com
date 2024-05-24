@@ -39,14 +39,14 @@ const props = defineProps({
 const totalHeight = computed(() => props.data.length * props.itemHeight);
 const start = ref(0);
 const count = ref(0);
-const end = computed(() => start.value + count.value) + props.buffer;
+const end = computed(() => start.value + count.value);
 const virtualList = computed(() => {
   return props.data.slice(start.value, end.value);
 });
 
 onBeforeMount(() => {
   const { innerHeight } = window;
-  count.value = Math.ceil(innerHeight / props.itemHeight);
+  count.value = Math.ceil(innerHeight / props.itemHeight) + props.buffer;
 });
 
 const startTop = ref(0);
