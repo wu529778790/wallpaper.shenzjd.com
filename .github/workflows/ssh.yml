@@ -9,8 +9,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # 接口部署
+    # steps:
+    #   - name: Triggering deployment using API endpoint
+    #     run: |
+    #       curl -X POST -H "Content-Type: application/json" -d '{}' https://wallpaper.shenzjd.com/api/deploy
 
+    # ssh部署
     steps:
-      - name: Triggering deployment using API endpoint
-        run: |
-          curl -X POST -H "Content-Type: application/json" -d '{}' https://wallpaper.shenzjd.com/api/deploy
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /www/wwwroot/wallpaper.shenzjd.com
+            git pull
+            pnpm install
+            pnpm run build
+            pm2 restart wallpaper.shenzjd.com
