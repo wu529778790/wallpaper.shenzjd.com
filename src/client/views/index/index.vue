@@ -106,7 +106,6 @@ onBeforeMount(() => {
   const { innerWidth } = window;
   itemWidth.value = innerWidth / 4;
   itemHeight.value = (itemWidth.value * 9) / 16;
-  console.log("itemHeight", itemHeight.value);
   getList();
 });
 </script>

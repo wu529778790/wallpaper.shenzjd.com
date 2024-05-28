@@ -9,6 +9,7 @@
     <Teleport v-if="fullscreenSrc" to="body">
       <img
         class="fullscreen"
+        :class="vague ? 'vague' : 'clear'"
         ref="fullscreen"
         :src="fullscreenSrc"
         :alt="data.tag"
@@ -103,7 +104,6 @@ const handleDownload = (item) => {
         : item.split("x")[1],
     quality: 100,
   });
-  // window.open(`https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=${url}`);
   const a = document.createElement("a");
   a.href = `https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=${url}`;
   a.download = url.split("/").pop();
@@ -114,14 +114,25 @@ const handleDownload = (item) => {
 };
 
 const fullscreenSrc = ref("");
+const vague = ref(true);
 const openFullScreen = async () => {
   const { innerWidth, innerHeight } = window;
-  fullscreenSrc.value = decode360Url({
+  // 先用小图的url
+  fullscreenSrc.value = props.data.decode360Url;
+  vague.value = true;
+  // 再用大图的url
+  const realUrl = decode360Url({
     oldUrl: props.data.url,
     width: innerWidth,
     height: innerHeight,
     quality: 0,
   });
+  const img = new Image();
+  img.src = realUrl;
+  img.onload = () => {
+    fullscreenSrc.value = realUrl;
+    vague.value = false;
+  };
 };
 
 const closeFullScreen = () => {
@@ -129,7 +140,7 @@ const closeFullScreen = () => {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .fullscreen {
   position: fixed;
   top: 0;
@@ -137,11 +148,17 @@ const closeFullScreen = () => {
   width: 100%;
   height: 100vh;
   z-index: 999;
-  object-fit: contain;
-  backdrop-filter: blur(10px);
+  object-fit: cover;
 }
-</style>
-<style lang="scss" scoped>
+// 模糊
+.vague {
+  filter: blur(4px);
+  transition: all 0.7s;
+}
+// 清晰
+.clear {
+  filter: blur(0);
+}
 .img-box {
   position: relative;
   overflow: hidden;
