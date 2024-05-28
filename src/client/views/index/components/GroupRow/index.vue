@@ -1,6 +1,6 @@
 <template>
   <div class="group-item">
-    <ImgBox
+    <ItemBox
       v-for="(item, index) in data"
       :key="item.id"
       :data="item"
@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import ImgBox from "./imgBox.vue";
+import ItemBox from "../ItemBox/index.vue";
 
 const props = defineProps({
   data: {

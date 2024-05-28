@@ -1,6 +1,10 @@
 <template>
   <div class="category-names">
-    <div class="item" :class="{ active_item: $route.query.cid === item.id }" v-for="item in category" :key="item.id"
+    <div
+      class="item"
+      :class="{ active_item: $route.query.cid === item.id }"
+      v-for="item in category"
+      :key="item.id"
       @click="getListByCategory(item)">
       {{ item.name }}
     </div>
