@@ -100,13 +100,17 @@ const groupList = computed(() => {
 
 const itemWidth = ref(0);
 const itemHeight = ref(0);
-
-onBeforeMount(() => {
+const initWidth = () => {
   // 获取浏览器宽度
   const { innerWidth } = window;
   itemWidth.value = innerWidth / 4;
   itemHeight.value = (itemWidth.value * 9) / 16;
+};
+onBeforeMount(() => {
+  initWidth();
   getList();
+  // 监听resize
+  window.addEventListener("resize", initWidth);
 });
 </script>
 
