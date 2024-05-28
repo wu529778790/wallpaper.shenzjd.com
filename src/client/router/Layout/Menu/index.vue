@@ -2,17 +2,28 @@
   <div class="menu-box">
     <div class="title" @click="handleClick({ key: '/index' })">电脑壁纸</div>
     <div class="menu">
-      <div class="item" :class="{ itemActive: currentKey === '/index' }" @click="handleClick({ key: '/index' })">
+      <div
+        class="item"
+        :class="{ itemActive: currentKey === '/index' }"
+        @click="handleClick({ key: '/index' })">
         最新壁纸
       </div>
-      <div class="item category" :class="{ itemActive: currentKey.includes('cid=') }">
+      <div
+        class="item category"
+        :class="{ itemActive: currentKey.includes('cid=') }">
         分类壁纸
         <Category class="category-box" />
       </div>
-      <div class="item" :class="{ itemActive: currentKey === '/bing' }" @click="handleClick({ key: '/bing' })">
+      <div
+        class="item"
+        :class="{ itemActive: currentKey === '/bing' }"
+        @click="handleClick({ key: '/bing' })">
         必应美图
       </div>
-      <div class="item" :class="{ itemActive: currentKey === '/english' }" @click="handleClick({ key: '/english' })">
+      <div
+        class="item"
+        :class="{ itemActive: currentKey === '/english' }"
+        @click="handleClick({ key: '/english' })">
         每日英语
       </div>
     </div>
@@ -62,16 +73,18 @@ function handleClick({ key }) {
   }
 
   .title {
-    background-image: -webkit-gradient(linear,
-        left top,
-        right bottom,
-        color-stop(0, #f22),
-        color-stop(0.15, #f2f),
-        color-stop(0.3, #22f),
-        color-stop(0.45, #2ff),
-        color-stop(0.6, #2f2),
-        color-stop(0.85, #ff2),
-        color-stop(1, #f22));
+    background-image: -webkit-gradient(
+      linear,
+      left top,
+      right bottom,
+      color-stop(0, #f22),
+      color-stop(0.15, #f2f),
+      color-stop(0.3, #22f),
+      color-stop(0.45, #2ff),
+      color-stop(0.6, #2f2),
+      color-stop(0.85, #ff2),
+      color-stop(1, #f22)
+    );
     color: transparent;
     background-clip: text;
     font-size: 28px;
@@ -80,12 +93,19 @@ function handleClick({ key }) {
     padding: 0 10px;
     cursor: pointer;
 
+    @media screen and (max-width: 455px) {
+      font-size: 16px;
+    }
+    @media screen and (max-width: 405px) {
+      display: none;
+    }
+
     &:hover {
       transform: rotate(666turn);
       transition-delay: 1s;
       transition-property: all;
       transition-duration: 59s;
-      transition-timing-function: cubic-bezier(.34, 0, .84, 1);
+      transition-timing-function: cubic-bezier(0.34, 0, 0.84, 1);
     }
   }
 
