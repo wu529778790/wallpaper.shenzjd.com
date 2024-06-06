@@ -3,7 +3,7 @@
     <img
       class="img"
       ref="imgRef"
-      :src="src"
+      :src="data.decode360Url"
       :alt="data.tag"
       @click="openFullScreen" />
     <Teleport v-if="fullscreenSrc" to="body">
@@ -69,12 +69,12 @@ const handlerMousewheel = (e) => {
 const imgRef = ref(null);
 const fullscreen = ref(null);
 onMounted(() => {
-  const imgObserver = new IntersectionObserver((entries) => {
-    if (entries[0].intersectionRatio <= 0) return;
-    src.value = props.data.decode360Url;
-    imgObserver.unobserve(document.querySelector(".img"));
-  });
-  imgObserver.observe(imgRef.value);
+  // const imgObserver = new IntersectionObserver((entries) => {
+  //   if (entries[0].intersectionRatio <= 0) return;
+  //   src.value = props.data.decode360Url;
+  //   imgObserver.unobserve(document.querySelector(".img"));
+  // });
+  // imgObserver.observe(imgRef.value);
 
   window.addEventListener("mousewheel", handlerMousewheel, { passive: false });
 });
@@ -114,7 +114,7 @@ const handleDownload = (item) => {
 };
 
 const fullscreenSrc = ref("");
-const vague = ref(true);
+const vague = ref(true); // 模糊的
 const openFullScreen = async () => {
   const { innerWidth, innerHeight } = window;
   // 先用小图的url
