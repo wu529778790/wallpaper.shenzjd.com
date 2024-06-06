@@ -6,14 +6,15 @@
       :src="data.decode360Url"
       :alt="data.tag"
       @click="openFullScreen" />
-    <Teleport v-if="fullscreenSrc" to="body">
-      <img
-        class="fullscreen"
-        :class="vague ? 'vague' : 'clear'"
-        ref="fullscreen"
-        :src="fullscreenSrc"
-        :alt="data.tag"
-        @click="closeFullScreen" />
+    <Teleport v-if="fullscreenShow" to="body">
+      <div class="fullscreen-box" @click="closeFullScreen">
+        <img
+          class="fullscreen"
+          :class="fullscreenSrc === data.decode360Url ? 'vague' : 'clear'"
+          ref="fullscreen"
+          :src="fullscreenSrc"
+          :alt="data.tag" />
+      </div>
     </Teleport>
     <div class="download">
       <div
@@ -37,9 +38,9 @@ const props = defineProps({
   },
 });
 
-const src = ref(
-  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
-);
+// const src = ref(
+//   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+// );
 
 const handlerMousewheel = (e) => {
   if (e.target !== fullscreen.value) return;
@@ -56,9 +57,10 @@ const handlerMousewheel = (e) => {
     if (
       parseFloat(
         fullscreen.value.style.transform.split("scale(")[1].split(")")[0]
-      ) <= 1
-    )
+      ) <= 0.1
+    ) {
       return;
+    }
     fullscreen.value.style.transform = `scale(${
       parseFloat(
         fullscreen.value.style.transform.split("scale(")[1].split(")")[0]
@@ -114,12 +116,12 @@ const handleDownload = (item) => {
 };
 
 const fullscreenSrc = ref("");
-const vague = ref(true); // 模糊的
+const fullscreenShow = ref(false);
 const openFullScreen = async () => {
   const { innerWidth, innerHeight } = window;
   // 先用小图的url
   fullscreenSrc.value = props.data.decode360Url;
-  vague.value = true;
+  fullscreenShow.value = true;
   // 再用大图的url
   const realUrl = decode360Url({
     oldUrl: props.data.url,
@@ -131,23 +133,28 @@ const openFullScreen = async () => {
   img.src = realUrl;
   img.onload = () => {
     fullscreenSrc.value = realUrl;
-    vague.value = false;
   };
 };
 
 const closeFullScreen = () => {
   fullscreenSrc.value = "";
+  fullscreenShow.value = false;
 };
 </script>
 
 <style lang="scss" scoped>
-.fullscreen {
+.fullscreen-box {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
   z-index: 999;
+  backdrop-filter: blur(5px);
+}
+.fullscreen {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 // 模糊
