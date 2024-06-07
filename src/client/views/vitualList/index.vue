@@ -6,35 +6,15 @@
     <div
       class="virtual-list"
       :style="{
-        top: -(topBufferList.length * itemHeight) + 'px',
-        bottom: -(bottomBufferList.length * itemHeight) + 'px',
+        top: -(topBufferLength * itemHeight) + 'px',
+        bottom: -(bottomBufferLength * itemHeight) + 'px',
         transform: `translate3d(0, ${startOffset}px, 0)`,
       }">
-      <!-- 顶部缓冲 -->
-      <div
-        class="item"
-        v-for="item in topBufferList"
-        :key="item"
-        :style="{
-          height: itemHeight + 'px',
-          background: '#f0fcff',
-        }">
-        {{ item }}
-      </div>
-      <!-- 中间内容 -->
       <div
         v-for="item in virtualList"
         :key="item"
         class="item"
         :style="{ height: itemHeight + 'px' }">
-        {{ item }}
-      </div>
-      <!-- 底部缓冲 -->
-      <div
-        class="item"
-        v-for="item in bottomBufferList"
-        :key="item"
-        :style="{ height: itemHeight + 'px', background: '#d6ecf0' }">
         {{ item }}
       </div>
     </div>
@@ -56,23 +36,27 @@ const count = ref(0);
 const endIndex = ref(0);
 // 缓冲行数
 const buffer = ref(2);
-// 顶部缓冲
-const topBufferList = computed(() => {
-  return data.value.slice(
-    Math.max(0, startIndex.value - buffer.value),
-    startIndex.value
-  );
+// 缓冲起始索引
+const bufferStartIndex = computed(() => {
+  return Math.max(0, startIndex.value - buffer.value);
 });
-// 底部缓冲
-const bottomBufferList = computed(() => {
-  return data.value.slice(
-    endIndex.value,
-    Math.min(endIndex.value + buffer.value, data.value.length)
+// 缓冲结束索引
+const bufferEndIndex = computed(() => {
+  return Math.min(data.value.length, endIndex.value + buffer.value);
+});
+// 顶部缓冲个数
+const topBufferLength = computed(() => {
+  return startIndex.value - Math.max(0, startIndex.value - buffer.value);
+});
+// 底部缓冲个数
+const bottomBufferLength = computed(() => {
+  return (
+    Math.min(endIndex.value + buffer.value, data.value.length) - endIndex.value
   );
 });
 
 const virtualList = computed(() => {
-  return data.value.slice(startIndex.value, endIndex.value);
+  return data.value.slice(bufferStartIndex.value, bufferEndIndex.value);
 });
 
 onBeforeMount(() => {
