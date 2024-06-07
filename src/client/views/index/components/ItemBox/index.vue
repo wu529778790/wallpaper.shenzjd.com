@@ -3,7 +3,7 @@
     <img
       class="img"
       ref="imgRef"
-      :src="data.decode360Url"
+      :src="src"
       :alt="data.tag"
       @click="openFullScreen" />
     <Teleport v-if="fullscreenShow" to="body">
@@ -38,9 +38,9 @@ const props = defineProps({
   },
 });
 
-// const src = ref(
-//   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
-// );
+const src = ref(
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+);
 
 const handlerMousewheel = (e) => {
   if (e.target !== fullscreen.value) return;
@@ -78,6 +78,11 @@ onMounted(() => {
   // });
   // imgObserver.observe(imgRef.value);
 
+  const img = new Image();
+  img.src = props.data.decode360Url;
+  img.onload = () => {
+    src.value = props.data.decode360Url;
+  };
   window.addEventListener("mousewheel", handlerMousewheel, { passive: false });
 });
 
