@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <VitualList
-      :key="itemHeight"
+      :key="params.cid"
       :data="groupList"
       :itemHeight="itemHeight"
       @scrollToBottom="getList">
