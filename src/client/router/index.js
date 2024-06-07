@@ -25,8 +25,12 @@ export const routes = [
     ],
   },
   {
-    path: "/vitualList",
-    component: () => import("@/views/vitualList/index.vue"),
+    path: "/bufferVitualList",
+    component: () => import("@/views/bufferVitualList/index.vue"),
+  },
+  {
+    path: "/variableHeightVitualList",
+    component: () => import("@/views/variableHeightVitualList/index.vue"),
   },
 ];
 
