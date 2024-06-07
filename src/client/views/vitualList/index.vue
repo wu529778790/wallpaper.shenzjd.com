@@ -5,9 +5,9 @@
       :style="{ height: totalHeight + 'px' }"></div>
     <div
       class="virtual-list"
-      :style="{ transform: `translateY(${startTop}px)` }">
+      :style="{ transform: `translate3d(0, ${startOffset}px, 0)` }">
       <div
-        v-for="item in virtualList"
+        v-for="(item, index) in virtualList"
         :key="item"
         class="item"
         :style="{ height: itemHeight + 'px' }">
@@ -19,31 +19,39 @@
 
 <script setup>
 import { ref, computed, onBeforeMount } from "vue";
-const data = ref(Array.from({ length: 2000 }, (_, i) => i + 1));
+const data = ref(Array.from({ length: 20 }, (_, i) => i + 1));
 
 const itemHeight = 100;
 
 const totalHeight = computed(() => data.value.length * itemHeight);
-const start = ref(0);
+// 起始索引
+const startIndex = ref(0);
+// 显示行数
 const count = ref(0);
-const end = computed(() => start.value + count.value);
+// 缓冲行数
+const buffer = ref(2);
+// 结束索引
+const endIndex = ref(0);
+
 const virtualList = computed(() => {
-  return data.value.slice(start.value, end.value);
+  return data.value.slice(startIndex.value, endIndex.value);
 });
 
 onBeforeMount(() => {
   const { innerHeight } = window;
   count.value = Math.ceil(innerHeight / itemHeight);
+  endIndex.value = startIndex.value + count.value + buffer.value;
 });
 
-const startTop = ref(0);
-const onScroll = (e) => {
-  const { scrollTop } = e.target;
-  start.value = Math.floor(scrollTop / itemHeight);
-  startTop.value =
-    scrollTop % itemHeight
-      ? Math.floor(scrollTop / itemHeight) * itemHeight
-      : scrollTop;
+const startOffset = ref(0);
+const onScroll = (event) => {
+  const scrollTop = event.target.scrollTop;
+  startIndex.value = Math.floor(scrollTop / itemHeight);
+  endIndex.value = Math.min(
+    startIndex.value + count.value + buffer.value,
+    data.value.length
+  );
+  startOffset.value = scrollTop - (scrollTop % itemHeight);
 };
 </script>
 
