@@ -28,8 +28,6 @@ const totalHeight = computed(() => data.value.length * itemHeight);
 const startIndex = ref(0);
 // 显示行数
 const count = ref(0);
-// 缓冲行数
-const buffer = ref(2);
 // 结束索引
 const endIndex = ref(0);
 
@@ -40,17 +38,14 @@ const virtualList = computed(() => {
 onBeforeMount(() => {
   const { innerHeight } = window;
   count.value = Math.ceil(innerHeight / itemHeight);
-  endIndex.value = startIndex.value + count.value + buffer.value;
+  endIndex.value = startIndex.value + count.value;
 });
 
 const startOffset = ref(0);
 const onScroll = (event) => {
   const scrollTop = event.target.scrollTop;
   startIndex.value = Math.floor(scrollTop / itemHeight);
-  endIndex.value = Math.min(
-    startIndex.value + count.value + buffer.value,
-    data.value.length
-  );
+  endIndex.value = Math.min(startIndex.value + count.value, data.value.length);
   startOffset.value = scrollTop - (scrollTop % itemHeight);
 };
 </script>
