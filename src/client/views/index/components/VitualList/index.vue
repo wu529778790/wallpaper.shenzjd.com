@@ -90,7 +90,7 @@ const onScroll = (e) => {
   startOffset.value = scrollTop - (scrollTop % props.itemHeight);
   // 如果滚动到底部
   if (
-    props.buffer * props.itemHeight >=
+    props.buffer * props.itemHeight * 2 >=
       scrollHeight - (scrollTop + clientHeight) &&
     !hasFired.value
   ) {
