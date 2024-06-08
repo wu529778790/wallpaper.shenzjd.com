@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onBeforeMount } from "vue";
+import { ref, computed, onBeforeMount, watch } from "vue";
 
 const props = defineProps({
   data: {
@@ -76,13 +76,26 @@ onBeforeMount(() => {
 
 const startOffset = ref(0);
 const emit = defineEmits(["scrollToBottom"]);
+let hasFired = ref(false);
+watch(
+  () => props.data,
+  () => {
+    hasFired.value = false;
+  }
+);
 const onScroll = (e) => {
   const { scrollTop, clientHeight, scrollHeight } = e.target;
   startIndex.value = Math.floor(scrollTop / props.itemHeight);
   endIndex.value = Math.min(startIndex.value + count.value, props.data.length);
   startOffset.value = scrollTop - (scrollTop % props.itemHeight);
   // 如果滚动到底部
-  if (scrollTop + clientHeight === scrollHeight) {
+  if (
+    props.buffer * props.itemHeight >=
+      scrollHeight - (scrollTop + clientHeight) &&
+    !hasFired.value
+  ) {
+    hasFired.value = true;
+    console.log("到底了");
     emit("scrollToBottom");
   }
 };
