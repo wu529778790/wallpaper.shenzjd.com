@@ -2,11 +2,15 @@
   <div class="virtual" @scroll="onScroll">
     <div
       class="virtual-phantom"
-      :style="{ height: `${data.length * 100}px` }"></div>
+      :style="{ height: `${data.length * itemHeight}px` }"></div>
     <div
       class="virtual-list"
       :style="{ transform: `translateY(${startTop}px)` }">
-      <div v-for="item in virtualList" :key="item" class="item">
+      <div
+        v-for="item in virtualList"
+        :key="item"
+        class="item"
+        :style="{ height: itemHeight + 'px' }">
         {{ item }}
       </div>
     </div>
@@ -15,11 +19,13 @@
 
 <script setup>
 import { ref, computed } from "vue";
-const data = ref(Array.from({ length: 20 }, (_, i) => i + 1));
+const data = ref(Array.from({ length: 100 }, (_, i) => i + 1));
 
 const start = ref(0);
-const count = ref(10);
+const count = ref(6);
 const end = computed(() => start.value + count.value);
+const itemHeight = 200;
+
 const virtualList = computed(() => {
   return data.value.slice(start.value, end.value);
 });
@@ -27,19 +33,18 @@ const virtualList = computed(() => {
 const startTop = ref(0);
 const onScroll = (e) => {
   const scrollTop = e.target.scrollTop;
-  start.value = Math.floor(scrollTop / 100);
+  start.value = Math.floor(scrollTop / itemHeight);
   // 向下取整(比较好理解)
   // startTop.value =
-  //   scrollTop % 100 ? Math.floor(scrollTop / 100) * 100 : scrollTop;
+  //   scrollTop % itemHeight ? Math.floor(scrollTop / itemHeight) * itemHeight : scrollTop;
   // 通用写法
-  startTop.value = scrollTop - (scrollTop % 100);
+  startTop.value = scrollTop - (scrollTop % itemHeight);
 };
 </script>
 
 <style lang="scss" scoped>
 .virtual {
-  flex: 1;
-  margin-top: 50px;
+  height: 100%;
   overflow: auto;
   position: relative;
   .virtual-phantom {
@@ -56,7 +61,6 @@ const onScroll = (e) => {
     right: 0;
     bottom: 0;
     .item {
-      height: 100px;
       background-color: #eee;
       display: flex;
       justify-content: center;

@@ -23,7 +23,7 @@
 
 <script setup>
 import { ref, computed, onBeforeMount } from "vue";
-const data = ref(Array.from({ length: 20 }, (_, i) => i + 1));
+const data = ref(Array.from({ length: 100 }, (_, i) => i + 1));
 
 const itemHeight = 100;
 
