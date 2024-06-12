@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onBeforeMount, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 
 const props = defineProps({
   data: {
@@ -68,9 +68,10 @@ const virtualList = computed(() => {
   return props.data.slice(bufferStartIndex.value, bufferEndIndex.value);
 });
 
-onBeforeMount(() => {
-  const { innerHeight } = window;
-  count.value = Math.ceil(innerHeight / props.itemHeight);
+onMounted(() => {
+  count.value = Math.ceil(
+    document.querySelector(".virtual-wapper").clientHeight / props.itemHeight
+  );
   endIndex.value = startIndex.value + count.value;
 });
 
