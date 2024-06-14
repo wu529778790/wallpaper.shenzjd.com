@@ -22,6 +22,13 @@
 <script setup>
 import { ref, computed, onBeforeMount } from "vue";
 
+/**
+ * Generates a random number between the given minimum and maximum values (inclusive).
+ *
+ * @param {number} min - The minimum value of the range.
+ * @param {number} max - The maximum value of the range.
+ * @return {number} - A random number between the given minimum and maximum values.
+ */
 const generateRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
@@ -30,7 +37,7 @@ const data = ref(
   Array.from({ length: 200 }, (_, i) => {
     return {
       id: i + 1,
-      height: generateRandomNumber(30, 200),
+      height: generateRandomNumber(200, 500),
     };
   })
 );
@@ -56,27 +63,9 @@ const visibaleCount = computed(() => {
   return i;
 });
 // 结束索引
-const endIndex = ref(0);
-// 缓冲行数
-const buffer = ref(2);
-// // 缓冲起始索引
-// const bufferStartIndex = computed(() => {
-//   return Math.max(0, startIndex.value - buffer.value);
-// });
-// // 缓冲结束索引
-// const bufferEndIndex = computed(() => {
-//   return Math.min(data.value.length, endIndex.value + buffer.value);
-// });
-// // 顶部缓冲个数
-// const topBufferLength = computed(() => {
-//   return startIndex.value - Math.max(0, startIndex.value - buffer.value);
-// });
-// // 底部缓冲个数
-// const bottomBufferLength = computed(() => {
-//   return (
-//     Math.min(endIndex.value + buffer.value, data.value.length) - endIndex.value
-//   );
-// });
+const endIndex = computed(() => {
+  return startIndex.value + visibaleCount.value;
+});
 
 const virtualList = computed(() => {
   return data.value.slice(startIndex.value, endIndex.value);
@@ -87,18 +76,28 @@ onBeforeMount(() => {
   totalHeight.value =
     (data.value.length - visibaleCount.value) * estimatedHeight +
     hasVisibleHeight.value;
-  endIndex.value = startIndex.value + visibaleCount.value;
 });
 
 const startOffset = ref(0);
+const hasChanged = ref(false);
+const notVisibleHeight = ref(data.value[startIndex.value].height);
 const onScroll = (event) => {
-  const scrollTop = event.target.scrollTop;
-  startIndex.value = Math.floor(scrollTop / estimatedHeight);
-  endIndex.value = Math.min(
-    startIndex.value + visibaleCount.value,
-    data.value.length
-  );
-  startOffset.value = scrollTop - (scrollTop % estimatedHeight);
+  const { scrollTop } = event.target;
+  // 如果大于第一个索引的高度，那么需要恢复位置
+  if (scrollTop >= notVisibleHeight.value) {
+    console.log(`大于${startIndex.value}索引的高度，那么需要恢复位置`);
+    if (hasChanged.value) {
+      return;
+    }
+    startOffset.value = scrollTop;
+    hasChanged.value = true;
+    startIndex.value = startIndex.value + 1;
+    notVisibleHeight.value =
+      notVisibleHeight.value + data.value[startIndex.value].height;
+  } else {
+    console.log(`没有超出${startIndex.value}索引的高度，那么需要滚动`);
+    hasChanged.value = false;
+  }
 };
 </script>
 
