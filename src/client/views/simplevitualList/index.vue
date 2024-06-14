@@ -35,10 +35,12 @@ const onScroll = (e) => {
   const scrollTop = e.target.scrollTop;
   start.value = Math.floor(scrollTop / itemHeight);
   // 向下取整(比较好理解)
-  // startTop.value =
-  //   scrollTop % itemHeight ? Math.floor(scrollTop / itemHeight) * itemHeight : scrollTop;
+  startTop.value =
+    scrollTop % itemHeight
+      ? Math.floor(scrollTop / itemHeight) * itemHeight
+      : scrollTop;
   // 通用写法
-  startTop.value = scrollTop - (scrollTop % itemHeight);
+  // startTop.value = scrollTop - (scrollTop % itemHeight);
 };
 </script>
 
