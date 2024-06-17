@@ -34,7 +34,7 @@ const generateRandomNumber = (min, max) => {
 };
 
 const data = ref(
-  Array.from({ length: 200 }, (_, i) => {
+  Array.from({ length: 20 }, (_, i) => {
     return {
       id: i + 1,
       height: generateRandomNumber(200, 500),
@@ -44,59 +44,70 @@ const data = ref(
 
 // 预估高度
 const estimatedHeight = 100;
-
-const totalHeight = ref(0);
+// 缓存的实际总高度
+const cacheHeight = new Map();
 
 // 起始索引
 const startIndex = ref(0);
 
-const hasVisibleHeight = ref(0);
 const innerHeight = window.innerHeight;
 // 显示行数
 const visibaleCount = computed(() => {
   // 计算显示行数
   let i = 0;
-  while (hasVisibleHeight.value < innerHeight) {
-    hasVisibleHeight.value = hasVisibleHeight.value + data.value[i].height;
+  let height = 0;
+  while (i < data.value.length && height < innerHeight) {
+    const item = data.value[i];
+    height += item.height;
+    cacheHeight.set(i, height);
     i++;
   }
   return i;
 });
+
 // 结束索引
 const endIndex = computed(() => {
   return startIndex.value + visibaleCount.value;
 });
 
 const virtualList = computed(() => {
+  const i = endIndex.value - 1;
+  // 如果没有缓存，计算高度
+  if (!cacheHeight.has(i)) {
+    cacheHeight.set(
+      i,
+      i === 0
+        ? data.value[i].height
+        : cacheHeight.get(i - 1) + data.value[i].height
+    );
+  }
+  // 计算显示行数
   return data.value.slice(startIndex.value, endIndex.value);
 });
 
-onBeforeMount(() => {
-  // 预估总高度
-  totalHeight.value =
-    (data.value.length - visibaleCount.value) * estimatedHeight +
-    hasVisibleHeight.value;
+const totalHeight = computed(() => {
+  return (
+    (data.value.length - endIndex.value) * estimatedHeight +
+    cacheHeight.get(endIndex.value - 1)
+  );
 });
 
 const startOffset = ref(0);
 const hasChanged = ref(false);
-const notVisibleHeight = ref(data.value[startIndex.value].height);
 const onScroll = (event) => {
   const { scrollTop } = event.target;
   // 如果大于第一个索引的高度，那么需要恢复位置
-  if (scrollTop >= notVisibleHeight.value) {
-    console.log(`大于${startIndex.value}索引的高度，那么需要恢复位置`);
-    if (hasChanged.value) {
-      return;
-    }
+  if (
+    cacheHeight.get(startIndex.value) < scrollTop &&
+    scrollTop < cacheHeight.get(startIndex.value + 1)
+  ) {
+    if (hasChanged) return;
+    console.log(
+      `在 ${startIndex.value} 索引和 ${startIndex.value + 1} 索引之间`
+    );
+    hasChanged = true;
     startOffset.value = scrollTop;
-    hasChanged.value = true;
-    startIndex.value = startIndex.value + 1;
-    notVisibleHeight.value =
-      notVisibleHeight.value + data.value[startIndex.value].height;
-  } else {
-    console.log(`没有超出${startIndex.value}索引的高度，那么需要滚动`);
-    hasChanged.value = false;
+    startIndex.value += 1;
   }
 };
 </script>
