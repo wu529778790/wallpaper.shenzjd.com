@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onBeforeMount } from "vue";
+import { ref, computed, onMounted } from "vue";
 
 /**
  * Generates a random number between the given minimum and maximum values (inclusive).
@@ -34,7 +34,7 @@ const generateRandomNumber = (min, max) => {
 };
 
 const data = ref(
-  Array.from({ length: 20 }, (_, i) => {
+  Array.from({ length: 10 }, (_, i) => {
     return {
       id: i + 1,
       height: generateRandomNumber(200, 500),
@@ -51,28 +51,12 @@ const cacheHeight = new Map();
 const startIndex = ref(0);
 
 const innerHeight = window.innerHeight;
-// 显示行数
-const visibaleCount = computed(() => {
-  // 计算显示行数
-  let i = 0;
-  let height = 0;
-  while (i < data.value.length && height < innerHeight) {
-    const item = data.value[i];
-    height += item.height;
-    cacheHeight.set(i, height);
-    i++;
-  }
-  return i;
-});
 
 // 结束索引
-const endIndex = computed(() => {
-  return startIndex.value + visibaleCount.value;
-});
+const endIndex = ref(1);
 
-const virtualList = computed(() => {
-  const i = endIndex.value - 1;
-  // 如果没有缓存，计算高度
+// 设置缓存
+const setCacheHeight = (i) => {
   if (!cacheHeight.has(i)) {
     cacheHeight.set(
       i,
@@ -81,8 +65,30 @@ const virtualList = computed(() => {
         : cacheHeight.get(i - 1) + data.value[i].height
     );
   }
+};
+
+// 当前页面不够展示一页就要加载更多
+const checkEndIndex = () => {
+  while (
+    cacheHeight.get(endIndex.value) - cacheHeight.get(startIndex.value) <=
+      innerHeight &&
+    endIndex.value < data.value.length - 1
+  ) {
+    endIndex.value++;
+    setCacheHeight(endIndex.value);
+  }
+};
+
+onMounted(() => {
+  for (let i = 0; i <= endIndex.value; i++) {
+    setCacheHeight(i);
+  }
+  checkEndIndex();
+});
+
+const virtualList = computed(() => {
   // 计算显示行数
-  return data.value.slice(startIndex.value, endIndex.value);
+  return data.value.slice(startIndex.value, endIndex.value + 1);
 });
 
 const totalHeight = computed(() => {
@@ -93,21 +99,17 @@ const totalHeight = computed(() => {
 });
 
 const startOffset = ref(0);
-const hasChanged = ref(false);
 const onScroll = (event) => {
   const { scrollTop } = event.target;
-  // 如果大于第一个索引的高度，那么需要恢复位置
-  if (
-    cacheHeight.get(startIndex.value) < scrollTop &&
-    scrollTop < cacheHeight.get(startIndex.value + 1)
-  ) {
-    if (hasChanged) return;
-    console.log(
-      `在 ${startIndex.value} 索引和 ${startIndex.value + 1} 索引之间`
-    );
-    hasChanged = true;
+  checkEndIndex();
+  if (scrollTop > cacheHeight.get(startIndex.value)) {
+    let i = 1;
+    while (scrollTop > cacheHeight.get(startIndex.value + i)) {
+      i++;
+    }
+    console.log(`在索引为${startIndex.value + i}的元素上`);
+    startIndex.value = startIndex.value + i;
     startOffset.value = scrollTop;
-    startIndex.value += 1;
   }
 };
 </script>
