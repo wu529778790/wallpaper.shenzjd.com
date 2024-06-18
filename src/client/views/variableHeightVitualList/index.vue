@@ -42,8 +42,14 @@ const data = ref(
   })
 );
 
-// 预估高度
-const estimatedHeight = 100;
+// 预估高度, 用已知的高度来计算平均高度
+const estimatedHeight = computed(() => {
+  if (!cacheHeight.get(endIndex.value)) {
+    return 100;
+  }
+  return cacheHeight.get(endIndex.value) / (endIndex.value + 1);
+});
+
 // 缓存的实际总高度
 const cacheHeight = new Map();
 
@@ -93,7 +99,7 @@ const virtualList = computed(() => {
 
 const totalHeight = computed(() => {
   return (
-    (data.value.length - endIndex.value) * estimatedHeight +
+    (data.value.length - endIndex.value) * estimatedHeight.value +
     cacheHeight.get(endIndex.value - 1)
   );
 });
