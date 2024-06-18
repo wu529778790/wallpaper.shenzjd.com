@@ -34,7 +34,7 @@ const generateRandomNumber = (min, max) => {
 };
 
 const data = ref(
-  Array.from({ length: 10 }, (_, i) => {
+  Array.from({ length: 100 }, (_, i) => {
     return {
       id: i + 1,
       height: generateRandomNumber(200, 500),
