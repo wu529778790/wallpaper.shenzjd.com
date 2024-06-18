@@ -99,8 +99,8 @@ const virtualList = computed(() => {
 
 const totalHeight = computed(() => {
   return (
-    (data.value.length - endIndex.value) * estimatedHeight.value +
-    cacheHeight.get(endIndex.value - 1)
+    (data.value.length - 1 - endIndex.value) * estimatedHeight.value +
+    cacheHeight.get(endIndex.value)
   );
 });
 
