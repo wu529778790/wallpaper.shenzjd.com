@@ -107,16 +107,28 @@ const totalHeight = computed(() => {
 const startOffset = ref(0);
 const onScroll = (event) => {
   const { scrollTop } = event.target;
-  checkEndIndex();
+  // 先判断是否在最顶部的上面还是下面
   if (scrollTop > cacheHeight.get(startIndex.value)) {
-    let i = 1;
+    let i = 0;
     while (scrollTop > cacheHeight.get(startIndex.value + i)) {
       i++;
     }
-    console.log(`在索引为${startIndex.value + i}的元素上`);
     startIndex.value = startIndex.value + i;
     startOffset.value = scrollTop;
   }
+  if (
+    startIndex.value > 0 &&
+    scrollTop < cacheHeight.get(startIndex.value - 1)
+  ) {
+    let i = 0;
+    while (scrollTop < cacheHeight.get(startIndex.value - 1 - i)) {
+      i++;
+    }
+    startIndex.value = startIndex.value - i;
+    startOffset.value = scrollTop - data.value[startIndex.value].height;
+  }
+  console.log(`在索引为${startIndex.value}的元素上`);
+  checkEndIndex();
 };
 </script>
 
