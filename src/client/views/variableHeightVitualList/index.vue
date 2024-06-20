@@ -1,5 +1,5 @@
 <template>
-  <div class="virtual-wapper" @scroll="onScroll">
+  <div ref="wapper" class="virtual-wapper" @scroll="onScroll">
     <div
       class="virtual-background"
       :style="{ height: totalHeight + 'px' }"></div>
@@ -34,10 +34,10 @@ const generateRandomNumber = (min, max) => {
 };
 
 const data = ref(
-  Array.from({ length: 100 }, (_, i) => {
+  Array.from({ length: 10 }, (_, i) => {
     return {
       id: i + 1,
-      height: generateRandomNumber(200, 500),
+      height: generateRandomNumber(100, 700),
     };
   })
 );
@@ -56,7 +56,7 @@ const cacheHeight = new Map();
 // 起始索引
 const startIndex = ref(0);
 
-const innerHeight = window.innerHeight;
+const wapper = ref(null);
 
 // 结束索引
 const endIndex = ref(1);
@@ -77,7 +77,7 @@ const setCacheHeight = (i) => {
 const checkEndIndex = () => {
   while (
     cacheHeight.get(endIndex.value - 1) - cacheHeight.get(startIndex.value) <=
-      innerHeight &&
+      wapper.value.offsetHeight &&
     endIndex.value < data.value.length - 1
   ) {
     endIndex.value++;
@@ -85,7 +85,7 @@ const checkEndIndex = () => {
   }
   while (
     cacheHeight.get(endIndex.value - 1) - cacheHeight.get(startIndex.value) >
-    innerHeight
+    wapper.value.offsetHeight
   ) {
     endIndex.value--;
   }
