@@ -76,12 +76,18 @@ const setCacheHeight = (i) => {
 // 当前页面不够展示一页就要加载更多
 const checkEndIndex = () => {
   while (
-    cacheHeight.get(endIndex.value) - cacheHeight.get(startIndex.value) <=
+    cacheHeight.get(endIndex.value - 1) - cacheHeight.get(startIndex.value) <=
       innerHeight &&
     endIndex.value < data.value.length - 1
   ) {
     endIndex.value++;
     setCacheHeight(endIndex.value);
+  }
+  while (
+    cacheHeight.get(endIndex.value - 1) - cacheHeight.get(startIndex.value) >
+    innerHeight
+  ) {
+    endIndex.value--;
   }
 };
 
