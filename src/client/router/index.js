@@ -21,16 +21,22 @@ export const routes = [
     ],
   },
   {
-    path: "/simplevitualList",
-    component: () => import("@/views/simplevitualList/index.vue"),
-  },
-  {
-    path: "/bufferVitualList",
-    component: () => import("@/views/bufferVitualList/index.vue"),
-  },
-  {
-    path: "/variableHeightVitualList",
-    component: () => import("@/views/variableHeightVitualList/index.vue"),
+    path: "/vitualList",
+    redirect: "/vitualList/simple",
+    children: [
+      {
+        path: "simple",
+        component: () => import("@/views/vitualList/simple/index.vue"),
+      },
+      {
+        path: "buffer",
+        component: () => import("@/views/vitualList/buffer/index.vue"),
+      },
+      {
+        path: "variableHeight",
+        component: () => import("@/views/vitualList/variableHeight/index.vue"),
+      },
+    ],
   },
 ];
 
