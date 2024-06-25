@@ -38,6 +38,10 @@ export const routes = [
       },
     ],
   },
+  {
+    path: "/fileUpload",
+    component: () => import("@/views/fileUpload/index.vue"),
+  },
 ];
 
 export const router = createRouter({

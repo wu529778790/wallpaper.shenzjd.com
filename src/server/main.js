@@ -2,6 +2,7 @@ import express from "express";
 import ViteExpress from "vite-express";
 import wallpaper from "./wallpaper/index.js";
 import deploy from "./deploy/index.js";
+import upload from "./upload/index.js";
 
 const app = express();
 const router = express.Router();
@@ -22,6 +23,8 @@ app.use("/api", router);
 router.use("/deploy", deploy);
 
 router.use("/wallpaper", wallpaper);
+
+router.use("/upload", upload);
 
 const server = app.listen(3001, "0.0.0.0", () => {
   console.log("Click here to open the browser: http://localhost:3001");
