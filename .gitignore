@@ -21,4 +21,4 @@ dist-ssr
 *.sln
 *.sw?
 stats.html
-/public/uploads/
+/src/server/static/

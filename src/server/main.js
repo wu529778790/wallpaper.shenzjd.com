@@ -18,12 +18,11 @@ app.use(express.json());
 
 // 添加/api前缀
 app.use("/api", router);
-
 // 部署
 router.use("/deploy", deploy);
-
+// 壁纸
 router.use("/wallpaper", wallpaper);
-
+// 上传
 router.use("/upload", upload);
 
 const server = app.listen(3001, "0.0.0.0", () => {

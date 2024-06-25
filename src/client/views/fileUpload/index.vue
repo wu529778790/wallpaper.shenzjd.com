@@ -2,6 +2,7 @@
   <div class="file-upload">
     <input ref="uploadRef" type="file" :multiple="multiple" :accept="accept" />
     <button @click="handleUpload">上传</button>
+    <button @click="handleDownload">下载</button>
   </div>
 </template>
 
@@ -33,5 +34,15 @@ const handleUpload = async () => {
   formData.append("file", file);
   const res = await fileUploadApi(formData);
   console.log(res);
+};
+
+const handleDownload = () => {
+  const url = "/src/server/3Nu7ZJcKdMb_z9AYfNyAhmQc.crt";
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "3Nu7ZJcKdMb_z9AYfNyAhmQc.crt";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 };
 </script>

@@ -13,7 +13,7 @@ const multipartyUpload = (req) => {
     const form = new multiparty.Form({
       maxFilesSize: 1024 * 1024 * 1024,
     });
-    form.uploadDir = "./public/uploads";
+    form.uploadDir = "./src/server/static";
     form.parse(req, (err, fields, files) => {
       if (err) {
         reject(err);
