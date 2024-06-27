@@ -2,6 +2,7 @@ import express from "express";
 import multiparty from "multiparty";
 
 const router = express.Router();
+const uploadDir = "./src/server/static";
 /**
  * Uploads a file using the multiparty library.
  *
@@ -12,8 +13,8 @@ const multipartyUpload = (req) => {
   return new Promise(async (resolve, reject) => {
     const form = new multiparty.Form({
       maxFilesSize: 1024 * 1024 * 1024,
+      uploadDir,
     });
-    form.uploadDir = "./src/server/static";
     form.parse(req, (err, fields, files) => {
       if (err) {
         reject(err);
