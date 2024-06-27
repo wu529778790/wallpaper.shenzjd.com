@@ -32,8 +32,8 @@ router.post("/single", async (req, res) => {
       code: 0,
       message: "上传成功",
       data: {
-        originalFilename: file.originalFilename,
-        servicePath: file.path.replace("public", ""),
+        fileName: file.originalFilename,
+        fileUrl: file.path.replaceAll("\\", "/").replace("/static", ""),
       },
     });
   } catch (error) {

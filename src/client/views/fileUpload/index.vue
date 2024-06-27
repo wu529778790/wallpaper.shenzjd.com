@@ -2,7 +2,11 @@
   <div class="file-upload">
     <input ref="uploadRef" type="file" :multiple="multiple" :accept="accept" />
     <button @click="handleUpload">上传</button>
-    <button @click="handleDownload">下载</button>
+    <div>已上传文件:</div>
+    <div v-for="item in uploadData" :key="item.url">
+      <div>{{ item.fileName }}</div>
+      <button @click="handleDownload(item)">下载</button>
+    </div>
   </div>
 </template>
 
@@ -24,6 +28,7 @@ const props = defineProps({
 });
 
 const uploadRef = ref();
+const uploadData = ref([]);
 const handleUpload = async () => {
   const file = uploadRef.value.files[0];
   if (!file) {
@@ -33,11 +38,11 @@ const handleUpload = async () => {
   const formData = new FormData();
   formData.append("file", file);
   const res = await fileUploadApi(formData);
-  console.log(res);
+  uploadData.value.push(res.data);
 };
 
-const handleDownload = () => {
-  const url = "/src/server/3Nu7ZJcKdMb_z9AYfNyAhmQc.crt";
+const handleDownload = (item) => {
+  const url = item.fileUrl;
   const a = document.createElement("a");
   a.href = url;
   a.download = "3Nu7ZJcKdMb_z9AYfNyAhmQc.crt";
