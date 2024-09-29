@@ -14,6 +14,9 @@ COPY src/server ./src/server
 COPY public ./public
 COPY dist ./dist
 
+# 安装cross-env
+RUN npm install --save-dev cross-env
+
 # 安装项目依赖
 RUN npm install pnpm -g
 # 使用pnpm安装生产依赖
