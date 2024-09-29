@@ -23,4 +23,4 @@ RUN pnpm install
 EXPOSE 3001
 
 # 启动应用
-CMD ["npm", "start"]
+CMD ["npm", "src/server/main.js"]
