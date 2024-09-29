@@ -17,7 +17,7 @@ COPY dist ./dist
 # 安装项目依赖
 RUN npm install pnpm -g
 # 下载cross-env
-RUN npm install cross-env
+RUN pnpm install cross-env
 # 使用pnpm安装生产依赖
 RUN pnpm install
 
@@ -25,4 +25,4 @@ RUN pnpm install
 EXPOSE 3001
 
 # 启动应用
-CMD ["npm", "start"]
+CMD ["npx", "cross-env", "NODE_ENV=production", "node", "src/server/main.js"]
