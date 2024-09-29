@@ -13,8 +13,7 @@ COPY public ./public
 COPY dist ./dist
 
 # 安装项目依赖
-RUN npm install pnpm -g
-RUN pnpm install
+RUN npm install
 
 # 暴露应用端口
 EXPOSE 3001
