@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: 构建和部署
 
 on:
   push:
@@ -10,33 +10,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: 检出仓库
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
+      - name: 设置Node.js
         uses: actions/setup-node@v2
         with:
           node-version: "19"
 
-      - name: Download pnpm
+      - name: 下载pnpm
         run: npm install -g pnpm
 
-      - name: Install dependencies
+      - name: 安装依赖
         run: pnpm install
 
-      - name: Build project
+      - name: 构建项目
         run: pnpm run build
 
-      - name: Set up Docker Buildx
+      - name: 设置Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Login to Docker Hub
+      - name: 登录Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker image
+      - name: 清除Docker缓存
+        run: |
+          echo "清除Docker缓存..."
+          docker builder prune -a --filter "dangling=true"
+
+      - name: 构建并推送Docker镜像
         uses: docker/build-push-action@v2
         with:
           context: .
