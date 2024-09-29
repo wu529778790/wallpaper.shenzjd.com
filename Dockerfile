@@ -17,7 +17,7 @@ COPY dist ./dist
 # 安装项目依赖
 RUN npm install pnpm -g
 # 下载cross-env
-RUN npm install cross-env -g
+RUN npm install cross-env
 # 使用pnpm安装生产依赖
 RUN pnpm install
 
