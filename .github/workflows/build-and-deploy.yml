@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: 检出仓库
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # 需要获取所有历史记录以创建标签
 
       - name: 设置Node.js
         uses: actions/setup-node@v2
@@ -36,14 +38,34 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: 清除Docker缓存
+      - name: 获取最新的Git标签
+        id: tag
         run: |
-          echo "清除Docker缓存..."
-          docker builder prune -a --filter "dangling=true"
+          echo "::set-output name=latest-tag::$(git describe --tags --abbrev=0)"
+
+      - name: 计算新版本号
+        id: version
+        run: |
+          latest=$(echo ${{ steps.tag.outputs.latest-tag }} | cut -d. -f1-2)
+          minor=$(( $(echo ${{ steps.tag.outputs.latest-tag }} | cut -d. -f3) + 1 ))
+          echo "::set-output name=new-version::$latest.$minor.0"
+
+      - name: 更新版本号并推送更改
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+        run: |
+          echo ${{ steps.version.outputs.new-version }} > VERSION
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          echo $GIT_TOKEN | git credential approve
+          git add VERSION
+          git commit -m "chore: bump version to ${{ steps.version.outputs.new-version }}"
+          git push
+          git push origin --tags
 
       - name: 构建并推送Docker镜像
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: wu529778790/wallpaper.shenzjd.com:latest
+          tags: wu529778790/wallpaper.shenzjd.com:${{ steps.version.outputs.new-version }}
