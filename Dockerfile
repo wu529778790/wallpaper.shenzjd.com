@@ -16,7 +16,8 @@ COPY dist ./dist
 
 # 安装项目依赖
 RUN npm install pnpm -g
-RUN pnpm install --frozen-lockfile
+# 使用pnpm安装生产依赖
+RUN pnpm install --prod
 
 # 暴露应用端口
 EXPOSE 3001
