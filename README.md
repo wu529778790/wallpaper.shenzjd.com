@@ -9,3 +9,7 @@
 - <https://wallpaper.shenzjd.com/api/wallpaper/getListByCategory>
 
 - <https://wallpaper.shenzjd.com/api/wallpaper/bing>
+
+## 参考
+
+<https://juejin.cn/post/7096749072345726990>

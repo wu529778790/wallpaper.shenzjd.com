@@ -2,7 +2,8 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import postcssConfig from "./postcss.config";
 import { visualizer } from "rollup-plugin-visualizer"; // 打包体积分析插件
-import viteImagemin from "vite-plugin-imagemin"; // 图片压缩插件
+// 有空换成 unplugin-imagemin
+// import viteImagemin from "vite-plugin-imagemin"; // 图片压缩插件
 import { createHtmlPlugin } from "vite-plugin-html"; // 生成 html 插件
 import externalGlobals from "rollup-plugin-external-globals"; // 导出全局变量
 
@@ -18,35 +19,35 @@ export default defineConfig({
         },
       },
     }),
-    viteImagemin({
-      gifsicle: {
-        optimizationLevel: 7,
-        interlaced: false,
-      },
-      // 无损压缩配置，无损压缩下图片质量不会变差
-      optipng: {
-        optimizationLevel: 7,
-      },
-      mozjpeg: {
-        quality: 20,
-      },
-      // 有损压缩配置，有损压缩下图片质量可能会变差
-      pngquant: {
-        quality: [0.8, 0.9],
-      },
-      // svg 优化
-      svgo: {
-        plugins: [
-          {
-            name: "removeViewBox",
-          },
-          {
-            name: "removeEmptyAttrs",
-            active: false,
-          },
-        ],
-      },
-    }),
+    // viteImagemin({
+    //   gifsicle: {
+    //     optimizationLevel: 7,
+    //     interlaced: false,
+    //   },
+    //   // 无损压缩配置，无损压缩下图片质量不会变差
+    //   optipng: {
+    //     optimizationLevel: 7,
+    //   },
+    //   mozjpeg: {
+    //     quality: 20,
+    //   },
+    //   // 有损压缩配置，有损压缩下图片质量可能会变差
+    //   pngquant: {
+    //     quality: [0.8, 0.9],
+    //   },
+    //   // svg 优化
+    //   svgo: {
+    //     plugins: [
+    //       {
+    //         name: "removeViewBox",
+    //       },
+    //       {
+    //         name: "removeEmptyAttrs",
+    //         active: false,
+    //       },
+    //     ],
+    //   },
+    // }),
   ],
   resolve: {
     alias: {
