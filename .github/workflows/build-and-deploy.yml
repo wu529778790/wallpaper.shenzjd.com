@@ -41,17 +41,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: 获取最新的Git标签
-        id: tag
-        run: |
-          echo "::set-output name=latest-tag::$(git describe --tags --abbrev=0)"
-
-      - name: 计算新版本号
+      - name: 获取版本号
         id: version
         run: |
-          latest=$(echo ${{ steps.tag.outputs.latest-tag }} | cut -d. -f1-2)
-          minor=$(( $(echo ${{ steps.tag.outputs.latest-tag }} | cut -d. -f3) + 1 ))
-          echo "::set-output name=new-version::$latest.$minor.0"
+          echo "::set-output name=new-version::$(cat VERSION)"
 
       - name: 更新版本号并推送更改
         env:
