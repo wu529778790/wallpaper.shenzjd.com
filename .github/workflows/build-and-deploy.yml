@@ -55,8 +55,8 @@ jobs:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
           echo ${{ steps.version.outputs.new-version }} > VERSION
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global user.name 'wu529778790'
+          git config --global user.email '529778790@qq.com'
           git remote set-url origin https://${GIT_TOKEN}@github.com/${{ github.repository }}
           git add VERSION
           git commit -m "chore: bump version to ${{ steps.version.outputs.new-version }}"
