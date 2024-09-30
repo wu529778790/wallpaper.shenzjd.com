@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "start": "node src/server/main.js",
+    "start": "NODE_ENV=production node src/server/main.js",
     "dev": "nodemon src/server/main.js -w src/server",
     "build": "vite build"
   },
