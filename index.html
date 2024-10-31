@@ -6,6 +6,23 @@
   <link rel="icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>电脑壁纸-神族九帝</title>
+
+  <!-- PageSpy SDK -->
+  <script crossorigin="anonymous" src="https://pagespy.shenzjd.com/page-spy/index.min.js"></script>
+
+  <!-- 插件（非必须，但建议使用） -->
+  <script crossorigin="anonymous" src="https://pagespy.shenzjd.com/plugin/data-harbor/index.min.js"></script>
+  <script crossorigin="anonymous" src="https://pagespy.shenzjd.com/plugin/rrweb/index.min.js"></script>
+  <script>
+    window.$harbor = new DataHarborPlugin();
+    window.$rrweb = new RRWebPlugin();
+
+    [window.$harbor, window.$rrweb].forEach(p => {
+      PageSpy.registerPlugin(p)
+    })
+
+    window.$pageSpy = new PageSpy();
+  </script>
   <%- script %>
 </head>
 
