@@ -7,6 +7,15 @@ import upload from "./upload/index.js";
 const app = express();
 const router = express.Router();
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 // 解析此应用程序的 JSON 正文。确保在路由处理程序之前放置 app.use(express.json())
 app.use(express.json());
 
