@@ -47,7 +47,7 @@ jobs:
 
       - name: Get version
         id: version
-        run: echo ::set-output name=new-version::v$(npm version)
+        run: echo ::set-output name=new-version::$(npm version)
         if: ${{ always() }}
 
       - name: Build and push docker image
@@ -56,7 +56,7 @@ jobs:
           context: .
           push: true
           tags: |
-            wu529778790/wallpaper.shenzjd.com:${{ steps.version.outputs.new-version }}
+            wu529778790/wallpaper.shenzjd.com:v${{ steps.version.outputs.new-version }}
             wu529778790/wallpaper.shenzjd.com:latest
         if: ${{ always() }}
 
