@@ -1,7 +1,7 @@
 {
   "name": "wallpaper.shenzjd.com",
   "private": true,
-  "version": "0.0.20",
+  "version": "0.0.21",
   "type": "module",
   "scripts": {
     "start": "NODE_ENV=production node src/server/main.js",
