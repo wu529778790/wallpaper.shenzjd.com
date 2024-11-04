@@ -32,9 +32,22 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          NEW_VERSION=$(npm version patch)
+
+          # 使用 --no-git-tag-version 避免创建版本标签
+          NEW_VERSION=$(npm version patch --no-git-tag-version)
+
+          # 将新版本写入环境变量
           echo "new-version=${NEW_VERSION}" >> $GITHUB_ENV
-          git commit -m "chore(release): $NEW_VERSION [skip ci]"
+
+          # 添加相关文件到暂存区
+          git add package.json
+
+          # 检查是否有更改可提交
+          if [ "$(git diff --cached --name-only)" ]; then
+            git commit -m "chore(release): $NEW_VERSION [skip ci]"
+          else
+            echo "No changes to commit."
+          fi
         if: ${{ always() }}
 
       - name: Set Docker Buildx
