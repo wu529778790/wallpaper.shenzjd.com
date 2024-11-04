@@ -19,7 +19,7 @@ jobs:
           node-version: "19"
 
       - name: Install Pnpm
-        run: npm install pnpm -g
+        run: npm install -g pnpm
 
       - name: Install dependencies
         run: pnpm install
@@ -33,7 +33,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           NEW_VERSION=$(npm version patch)
-          echo ::set-output name=new-version::$NEW_VERSION
+          echo "new-version=${NEW_VERSION}" >> $GITHUB_ENV
           git commit -m "chore(release): $NEW_VERSION [skip ci]"
         if: ${{ always() }}
 
@@ -54,7 +54,7 @@ jobs:
           context: .
           push: true
           tags: |
-            wu529778790/wallpaper.shenzjd.com:${{ steps.version.outputs.new-version }}
+            wu529778790/wallpaper.shenzjd.com:${{ env.new-version }}
             wu529778790/wallpaper.shenzjd.com:latest
         if: ${{ always() }}
 
