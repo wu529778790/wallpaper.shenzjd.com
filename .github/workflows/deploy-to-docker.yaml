@@ -47,7 +47,7 @@ jobs:
 
       - name: Get version
         id: version
-        run: echo ::set-output name=new-version::$(npm version patch)
+        run: echo ::set-output name=new-version::$(npm version)
         if: ${{ always() }}
 
       - name: Build and push docker image
