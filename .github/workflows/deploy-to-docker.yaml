@@ -53,7 +53,7 @@ jobs:
           context: .
           push: true
           tags: |
-            wu529778790/wallpaper.shenzjd.com:v${{ steps.version.outputs.new-version }}
+            wu529778790/wallpaper.shenzjd.com:${{ steps.version.outputs.new-version }}
             wu529778790/wallpaper.shenzjd.com:latest
         if: ${{ always() }}
 
