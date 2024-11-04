@@ -32,8 +32,9 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          echo ::set-output name=new-version::$(npm version patch)
-          git commit -m "chore(release): $new-version [skip ci]"
+          NEW_VERSION=$(npm version patch)
+          echo ::set-output name=new-version::$NEW_VERSION
+          git commit -m "chore(release): $NEW_VERSION [skip ci]"
         if: ${{ always() }}
 
       - name: Set Docker Buildx
