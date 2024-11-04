@@ -25,8 +25,8 @@ router.use("/wallpaper", wallpaper);
 // 上传
 router.use("/upload", upload);
 
-const server = app.listen(3001, "0.0.0.0", () => {
-  console.log("Click here to open the browser: http://localhost:3001");
+const server = app.listen(80, "0.0.0.0", () => {
+  console.log("Click here to open the browser: http://localhost:80");
 });
 
 ViteExpress.bind(app, server);

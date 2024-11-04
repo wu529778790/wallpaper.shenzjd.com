@@ -20,7 +20,7 @@ RUN npm install pnpm -g
 RUN pnpm install
 
 # 暴露应用端口
-EXPOSE 3001
+EXPOSE 80
 
 # 启动应用
 CMD ["npm", "start"]
